@@ -4,6 +4,7 @@ import com.parkcar.domain.entity.Veiculo;
 import com.parkcar.dto.ResponseDTO;
 import com.parkcar.dto.VeiculoRequestDTO;
 import com.parkcar.repository.VeiculoRepository;
+import com.parkcar.service.VeiculoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,29 +16,38 @@ import java.util.List;
 public class VeiculoController {
 
     private final VeiculoRepository repository;
+    private final VeiculoService veiculoService;
 
-    public VeiculoController(VeiculoRepository repository) {
+    public VeiculoController(VeiculoRepository repository, VeiculoService veiculoService) {
         this.repository = repository;
+        this.veiculoService = veiculoService;
     }
 
     @PostMapping
     public ResponseEntity criar(@RequestBody VeiculoRequestDTO veiculoDto) {
-        Veiculo veiculo = new Veiculo();
-        veiculo.setPlaca(veiculoDto.getPlaca());
-        veiculo.setNomeProprietario(veiculoDto.getNomeProprietario());
-        veiculo.setTipo(veiculoDto.getTipo());
 
         return ResponseEntity.ok(ResponseDTO.builder()
-                .data(repository.save(veiculo))
+                .data(veiculoService.Criar(veiculoDto))
                 .statusCode(HttpStatus.CREATED.value())
                 .build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletar(@PathVariable Long id) {
+
+                veiculoService.Deletar(id);
+
+               return ResponseEntity.ok(
+                        ResponseDTO.builder()
+                                .statusCode(HttpStatus.OK.value())
+                                .build());
     }
 
     @GetMapping
     public ResponseEntity listar() {
 
         return ResponseEntity.ok(ResponseDTO.builder()
-                .data(repository.findAll())
+                .data(veiculoService.Listar())
                 .statusCode(HttpStatus.OK.value())
                 .build());
     }
@@ -45,7 +55,7 @@ public class VeiculoController {
     @GetMapping("/{placa}")
     public ResponseEntity buscarPorPlaca(@PathVariable String placa) {
 
-        return repository.findByPlaca(placa)
+        return veiculoService.BuscarPorPlaca(placa)
                 .map(veiculo -> ResponseEntity.ok(
                         ResponseDTO.builder()
                                 .statusCode(HttpStatus.OK.value())

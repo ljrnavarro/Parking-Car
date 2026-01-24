@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Parking Car</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <strong>Parking Car</strong>
+            <small>Sistema de Estacionamento</small>
+        </div>
+
+        <span class="menu-title">MENU</span>
+        <a href="/" class="active">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="/veiculos">
+            <i class="bi bi-car-front"></i> Veículos
+        </a>
+        <a href="/estacionamentos">
+            <i class="bi bi-p-square"></i> Estacionamentos
+        </a>
+        <a href="/garagens">
+            <i class="bi bi-building"></i> Garagens
+        </a>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+        <header class="topbar">
+            <h4 id="pageTitle">Dashboard</h4>
+        </header>
+
+        <section class="page-content">
+            <div id="dashboardContent"></div>
+        </section>
+    </main>
+
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/veiculos.js"></script>
+<script>setActiveMenu();</script>
+
+</body>
+</html>

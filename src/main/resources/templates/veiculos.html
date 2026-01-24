@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Veículos | Parking Car</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/ag-grid.css">
+    <link rel="stylesheet" href="/css/ag-theme-alpine.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/ag-theme-quartz.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <strong>Parking Car</strong>
+            <small>Sistema de Estacionamento</small>
+        </div>
+
+        <span class="menu-title">MENU</span>
+        <a href="/">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="/veiculos" class="active">
+            <i class="bi bi-car-front"></i> Veículos
+        </a>
+        <a href="/estacionamentos">
+            <i class="bi bi-p-square"></i> Estacionamentos
+        </a>
+        <a href="/garagens">
+            <i class="bi bi-building"></i> Garagens
+        </a>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
+        <header class="topbar d-flex justify-content-between align-items-center">
+            <h4 id="pageTitle">Veículos</h4>
+            <button class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#novoVeiculoModal">
+                ➕ Novo Veículo
+            </button>
+        </header>
+
+
+
+        <section class="page-content">
+            <div class="ag-theme-alpine" style="height: 500px;">
+                <div id="veiculosGrid"
+                     class="ag-theme-quartz"
+                     style="height: 520px; width: 100%; --ag-font-size: 14px;">
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/axios.min.js"></script>
+<script src="/js/ag-grid-community.min.noStyle.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/layout.js"></script>
+<script src="/js/veiculos.js"></script>
+<script>setActiveMenu();</script>
+
+<!-- MODAL: NOVO VEÍCULO -->
+<div class="modal fade" id="novoVeiculoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Veículo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="novoVeiculoForm">
+
+                    <div class="mb-3">
+                        <label class="form-label">Placa</label>
+                        <input type="text"
+                               class="form-control"
+                               id="placa"
+                               required
+                               placeholder="ABC-1234">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Proprietário</label>
+                        <input type="text"
+                               class="form-control"
+                               id="nomeProprietario"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select class="form-select" id="tipo" required>
+                            <option value="">Selecione</option>
+                            <option value="LEVE">Leve</option>
+                            <option value="MEDIO">Médio</option>
+                            <option value="PESADO">Pesado</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" onclick="salvarVeiculo()">
+                    Salvar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

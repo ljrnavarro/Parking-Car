@@ -92,6 +92,27 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.5.0</version>
         </dependency>
+
+        <!-- Thymeleaf para templates HTML -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Kendo UI via WebJars (para incluir como dependência Maven) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.6.0</version>
+        </dependency>
+
+        <!-- Bootstrap para layout básico (opcional) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
