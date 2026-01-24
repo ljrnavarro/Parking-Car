@@ -1,4 +1,4 @@
-# 🅿️ Parking-Car API
+# 🚗 ParkCar API
 
 ![Java](https://img.shields.io/badge/Java-17-blue) ![Spring
 Boot](https://img.shields.io/badge/SpringBoot-3.x-brightgreen)
@@ -6,208 +6,149 @@ Boot](https://img.shields.io/badge/SpringBoot-3.x-brightgreen)
 ![Docker](https://img.shields.io/badge/Docker-Container-blue)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-API REST para gerenciamento de um **sistema de estacionamento**,
-construída com **Spring Boot**, **JPA**, **MySQL** e **Docker**.
+API REST para **gestão de estacionamento**, desenvolvida em **Java com Spring Boot**, utilizando **MySQL em container Docker**, com versionamento de banco via Flyway e documentação automática com Swagger.
 
-------------------------------------------------------------------------
+O sistema controla veículos, garagens e o registro de entrada, aplicando regras de negócio como lotação máxima e impedindo entradas duplicadas.
 
-## 🚀 Objetivo do Projeto
+---
 
-Demonstrar boas práticas de desenvolvimento backend:
+## 🧩 Funcionalidades
 
-✔ Arquitetura em camadas\
-✔ API RESTful\
-✔ Persistência com JPA\
-✔ Migrations com Flyway\
-✔ Documentação OpenAPI\
-✔ Ambiente isolado com Docker
+- Cadastro de veículos
+- Cadastro de garagens
+- Registro de entrada de veículos
+- Controle de vagas por garagem
+- Consulta de veículos estacionados
+- Validações de negócio:
+  - Veículo já estacionado
+  - Garagem lotada
+  - Veículo ou garagem inexistentes
+- Tratamento global de exceções
+- Versionamento de banco de dados com Flyway
+- Documentação automática via Swagger (OpenAPI)
 
-------------------------------------------------------------------------
+---
 
-## 🧠 Regras de Negócio
+## 🏗️ Estrutura do Projeto
 
-  -----------------------------------------------------------------------
-  Regra                     Descrição
-  ------------------------- ---------------------------------------------
-  🚫 Placa duplicada        Não permite cadastrar o mesmo veículo duas
-                            vezes
-
-  🚫 Estacionamento cheio   Impede entrada quando não há vagas
-
-  📊 Controle de vagas      O sistema calcula ocupação automaticamente
-  -----------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-## 🛠️ Stack Tecnológica
-
-  Camada            Tecnologia
-  ----------------- -----------------------------
-  Linguagem         Java 17
-  Framework         Spring Boot
-  Persistência      Spring Data JPA / Hibernate
-  Banco             MySQL
-  Migração          Flyway
-  Documentação      Swagger / OpenAPI
-  Containerização   Docker
-
-------------------------------------------------------------------------
-
-## 🧱 Arquitetura
-
-    Controller → Service → Repository → Database
-
-Separação clara de responsabilidades para facilitar manutenção e testes.
-
-------------------------------------------------------------------------
-
-## ⚙️ Como Executar o Projeto
-
-### 🔹 1. Clonar o repositório
-
-``` bash
-git clone https://github.com/ljrnavarro/Parking-Car.git
-cd Parking-Car
+```text
+src
+└── main
+    ├── java
+    │   └── com.parkcar
+    │       ├── config
+    │       ├── controller
+    │       ├── domain
+    │       ├── dto
+    │       ├── exception
+    │       ├── repository
+    │       └── service
+    └── resources
+        ├── db.migration
+        ├── application.properties
 ```
 
-------------------------------------------------------------------------
+---
 
-### 🔹 2. Subir banco com Docker
+## 🛠️ Tecnologias Utilizadas
 
-``` bash
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- Spring Web MVC
+- Spring Security
+- Flyway
+- MySQL
+- Docker / Docker Compose
+- Lombok
+- Swagger (SpringDoc OpenAPI)
+
+---
+
+## 🐳 Banco de Dados (MySQL via Docker)
+
+O banco de dados MySQL roda em um **container Docker**, garantindo facilidade de setup e consistência entre ambientes.
+
+### Exemplo de docker-compose.yml
+
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: parkcar-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: parkcar
+      MYSQL_USER: parkcar
+      MYSQL_PASSWORD: parkcar
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+```
+
+### Subir o banco
+
+```bash
 docker-compose up -d
 ```
 
-------------------------------------------------------------------------
+---
 
-### 🔹 3. Configurar aplicação
+## 🗄️ Versionamento de Banco (Flyway)
 
-Arquivo:
+As migrations estão localizadas em:
 
-    src/main/resources/application.properties
-
-Exemplo:
-
-``` properties
-spring.datasource.url=jdbc:mysql://localhost:3306/parking
-spring.datasource.username=root
-spring.datasource.password=root
-
-spring.jpa.hibernate.ddl-auto=none
-spring.jpa.show-sql=true
+```text
+src/main/resources/db.migration
 ```
 
-------------------------------------------------------------------------
+- V1__create_parking_tables.sql
+- V2__insert_dados_iniciais.sql
 
-### 🔹 4. Rodar a API
+As migrations são executadas automaticamente ao iniciar a aplicação.
 
-``` bash
+---
+
+## ▶️ Executando o Projeto
+
+### Pré-requisitos
+
+- Java 17
+- Maven
+- Docker e Docker Compose
+
+### Passos
+
+```bash
+docker-compose up -d
 mvn spring-boot:run
 ```
 
-A aplicação iniciará em:
+---
 
-    http://localhost:8080
+## 📘 Documentação da API (Swagger)
 
-------------------------------------------------------------------------
+Após iniciar a aplicação:
 
-## 📚 Documentação Swagger
-
-Acesse a documentação interativa:
-
-    http://localhost:8080/swagger-ui/index.html
-
-------------------------------------------------------------------------
-
-## 📌 Principais Endpoints
-
-### 🚗 Veículos
-
-**Criar veículo**
-
-``` http
-POST /vehicles
-Content-Type: application/json
+```text
+http://localhost:8080/swagger-ui/index.html
 ```
 
-``` json
-{
-  "plate": "ABC-1234",
-  "model": "Civic",
-  "color": "Preto"
-}
-```
+---
 
-------------------------------------------------------------------------
+## 🚦 Tratamento de Erros
 
-### 🅿️ Estacionamentos
+A aplicação utiliza um **Global Exception Handler** (`@RestControllerAdvice`) para padronizar respostas de erro com códigos HTTP corretos e mensagens claras.
 
-**Criar estacionamento**
-
-``` http
-POST /parkings
-```
-
-``` json
-{
-  "name": "Shopping Center",
-  "capacity": 50
-}
-```
-
-------------------------------------------------------------------------
-
-### 🚘 Entradas
-
-**Registrar entrada**
-
-``` http
-POST /entries
-```
-
-``` json
-{
-  "vehiclePlate": "ABC-1234",
-  "parkingId": 1
-}
-```
-
-------------------------------------------------------------------------
-
-## ❌ Tratamento de Erros
-
-  Código   Situação
-  -------- --------------------------
-  400      Dados inválidos
-  404      Recurso não encontrado
-  409      Regra de negócio violada
-
-------------------------------------------------------------------------
-
-## 🧪 Testes
-
-``` bash
-mvn test
-```
-
-------------------------------------------------------------------------
-
-## 📈 Melhorias Futuras
-
--   🔐 Autenticação JWT\
--   📊 Dashboard de ocupação\
--   📅 Histórico de permanência\
--   🧾 Cálculo de cobrança
-
-------------------------------------------------------------------------
-
-## 👨‍💻 Autor
-
-**Luiz Navarro**\
-https://github.com/ljrnavarro
-
-------------------------------------------------------------------------
+---
 
 ## 📄 Licença
 
-MIT
+Projeto desenvolvido para fins educacionais e demonstração de boas práticas com Spring Boot.
