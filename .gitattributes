@@ -1,2 +1,5 @@
-/mvnw text eol=lf
-*.cmd text eol=crlf
+# Force detecção de tipos
+*.html linguist-language=HTML
+*.js linguist-language=JavaScript
+*.java linguist-language=Java
+Dockerfile linguist-language=Dockerfile
