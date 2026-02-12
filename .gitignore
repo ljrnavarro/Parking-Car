@@ -31,3 +31,70 @@ build/
 
 ### VS Code ###
 .vscode/
+
+####################################
+# Maven
+####################################
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+####################################
+# Spring Boot
+####################################
+*.log
+logs/
+spring.log
+
+####################################
+# H2 Database (se usar file-based no futuro)
+####################################
+*.mv.db
+*.trace.db
+
+####################################
+# Environment variables / secrets
+####################################
+application-local.properties
+application-local.yml
+.env
+
+####################################
+# IDEs - IntelliJ IDEA
+####################################
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+####################################
+# IDEs - Eclipse
+####################################
+.project
+.classpath
+.settings/
+bin/
+
+####################################
+# VS Code
+####################################
+.vscode/
+
+####################################
+# OS files
+####################################
+.DS_Store
+Thumbs.db
+
+####################################
+# Generated files
+####################################
+*.jar
+*.war
+*.ear
+
+####################################
+# Swagger / OpenAPI generated files (se houver)
+####################################
+openapi.json
+openapi.yaml
